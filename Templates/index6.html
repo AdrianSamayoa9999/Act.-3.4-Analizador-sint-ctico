@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analizador Léxico y Sintáctico</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', Arial, verdana;
+            background-image: url('https://wallpaperaccess.com/full/6079150.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: red;
+            margin: 0;
+            padding: 20px;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+    
+        table, th, td {
+            border: 1px solid red;
+        }
+    
+        th, td {
+            padding: 8px;
+            text-align: left;
+            color: red;
+        }
+    
+        textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            color: red;
+            background-color: black;
+            border: 1px solid red;
+            padding: 10px;
+            box-sizing: border-box;
+            resize: both;
+            border-radius: 4px;
+        }
+    
+        input[type="submit"], input[type="button"] {
+            padding: 10px 20px;
+            background-color: black;
+            color: red;
+            border: 1px solid red;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+    
+        input[type="submit"]:hover, input[type="button"]:hover {
+            background-color: red;
+            color: black;
+        }
+
+        .syntax-result {
+            background-color: rgb(194, 187, 187);
+            color: black;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Analizador Léxico y Sintáctico</h1>
+
+    <form method="post">
+        <textarea id="textInput" name="text" rows="10" placeholder="Escribe o pega tu código aquí...">{{ text }}</textarea><br>
+        <input type="submit" value="Analizar">
+        <input type="button" value="Limpiar" onclick="document.getElementById('textInput').value=''">
+    </form>
+    <br>
+    {% if syntax_errors %}
+    <div class="syntax-result">
+        <h2>Resultado del análisis sintáctico</h2>
+        <ul>
+            {% for error in syntax_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if lex_tokens %}
+    <h2>Resultado del análisis léxico</h2>
+    <table>
+        <tr>
+            <th>Token</th>
+            <th>Palabra Reservada</th>
+            <th>Identificador</th>
+            <th>Símbolo</th>
+            <th>Número</th>
+            <th>Tipo</th>
+        </tr>
+        {% for token in lex_tokens %}
+        <tr>
+            <td>{{ token.token }}</td>
+            <td>{{ token.palabra_reservada }}</td>
+            <td>{{ token.identificador }}</td>
+            <td>{{ token.simbolo }}</td>
+            <td>{{ token.numero }}</td>
+            <td>{{ token.tipo }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <p>Total de palabras reservadas: {{ palabra_reservada_count }}</p>
+    <p>Total de identificadores: {{ identificador_count }}</p>
+    <p>Total de símbolos: {{ simbolo_count }}</p>
+    <p>Total de números: {{ numero_count }}</p>
+    {% endif %}
+</body>
+</html>
